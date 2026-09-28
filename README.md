@@ -4,9 +4,25 @@
 
 ---
 
-## Conversation & Learning Log
+## Curriculum & Roadmap
 
-### 👤 User
+1. **Module 1: The Storage Engine (Mini SQLite from Scratch)**
+   - *Reference*: cstack's *Let's Build a Simple Database*
+   - Fixed-size record serialization, page layout (4096-byte pages), file pager, and B-Tree structure.
+2. **Module 2: Low-Level Networking & Callback-Driven HTTP Server**
+   - *Reference*: Beej's *Guide to Network Programming* & The C10K Problem
+   - TCP sockets, non-blocking I/O multiplexing (), callback event loop, manual HTTP/1.1 parsing.
+3. **Module 3: Frontend Virtual DOM & Custom Reconciler**
+   - *Reference*: Rodrigo Pombo's *Didact* & Jason Yu's VDOM Breakdown
+   - VNode representation, tree diffing, patch operations, commit phase to real browser DOM.
+4. **Module 4: Full-Stack Integration**
+   - REST API over raw sockets, database CRUD integration, reactive Todo client.
+
+---
+
+## Learning Log & Dialogue
+
+### 👤 Learner
 
 remember this for this chat 
 
@@ -74,11 +90,11 @@ To set our roadmap, here are five core courses we can cover. We will pick **one*
 1. **Select a starting course** from above (or propose a customized one).
 2. If you have specific **personal notes, blog posts, or articles** you want us to anchor the first course to, share them or let me know, and we will build the syllabus directly around them.
 
-### 👤 User
+### 👤 Learner
 
 no these course were just an example i will give you now what i want to learn
 
-### 👤 User
+### 👤 Learner
 
 no these course were just an example i will give you now what i want to learn
 
@@ -86,7 +102,7 @@ no these course were just an example i will give you now what i want to learn
 
 Understood! Please share the topic, notes, or blog posts you'd like us to focus on, and we will build the course and dive straight into it.
 
-### 👤 User
+### 👤 Learner
 
 teach me how to make a todo list website with sqlite database without using any frameworks like react (but do write our own reconciler) for backend write everything yourself all the socket programing etc, dont use coroutines though use callbacks (coroutines are very hard for you rn), make the database yourself
 
@@ -161,6 +177,78 @@ Total Record Size: 4 + 64 + 1 = 69 Bytes
 1. Which language do you prefer for the Backend & Database (**Python**, **C**, or **Node.js**)?
 2. If our database page size is fixed at **4096 bytes** (4 KB, standard OS page size), and each record is **69 bytes**, how many full records can fit inside a single page, and how many bytes of internal fragmentation (slack space) remain unused per page?
 
-### 👤 User
+### 👤 Learner
 
 before we start like i want to share this chat on github like can you do it for me like i have an account on github and already have git installed in my laptop
+
+### 🤖 Instructor
+
+I've set up a dedicated Git repository for our course and exported our entire conversation and course roadmap into a clean Markdown file.
+
+### What is ready:
+- **Repository location**: `/home/ashutosh-goyal/.gemini/antigravity/scratch/from-scratch-todo-course`
+- **Initial commit**: Already created on the `main` branch with [`README.md`](file:///home/ashutosh-goyal/.gemini/antigravity/scratch/from-scratch-todo-course/README.md), containing the 4-module curriculum, reference links, and our full dialogue.
+
+---
+
+### To push this to your GitHub:
+
+1. Go to [github.com/new](https://github.com/new) and create a new repository (e.g. `from-scratch-todo-course`). **Leave it empty** (do *not* check "Add README" or license).
+2. Copy your new repo's URL (HTTPS or SSH).
+
+Then choose either option:
+
+#### Option A: Tell me the repo URL
+Paste your repo URL here (e.g., `git@github.com:<username>/from-scratch-todo-course.git` or `https://github.com/<username>/from-scratch-todo-course.git`), and I will configure the remote and push it for you.
+
+#### Option B: Push directly from your terminal
+Run these commands in your laptop terminal:
+```bash
+cd /home/ashutosh-goyal/.gemini/antigravity/scratch/from-scratch-todo-course
+git remote add origin <YOUR_GITHUB_REPO_URL>
+git push -u origin main
+```
+
+*(As we write the database, network server, and reconciler, we will commit every milestone so your GitHub repo turns into a complete portfolio codebase.)*
+
+Whenever you're ready, let me know the URL or confirm you've pushed, and we'll dive right into **Module 1**!
+
+### 👤 Learner
+
+its showing this where is repo's url
+
+### 🤖 Instructor
+
+You haven't created it yet—you're on the setup screen!
+
+Here is what to do:
+
+1. **Scroll down to the bottom** of that webpage and click the green button that says **"Create repository"**.
+2. Once you click it, GitHub will redirect you to the new repository page.
+
+Because your username is **`straydogs1207`** and the repo name is **`from-scratch-todo-course`**, your repository URL will be:
+
+- **SSH (Recommended if you have SSH keys set up):**
+  ```text
+  git@github.com:straydogs1207/from-scratch-todo-course.git
+  ```
+- **HTTPS:**
+  ```text
+  https://github.com/straydogs1207/from-scratch-todo-course.git
+  ```
+
+---
+
+### Once you click "Create repository":
+
+I can push it directly from here! Just let me know if you want me to push using **SSH** or **HTTPS**, or you can run this single command in your terminal:
+
+```bash
+cd /home/ashutosh-goyal/.gemini/antigravity/scratch/from-scratch-todo-course
+git remote add origin git@github.com:straydogs1207/from-scratch-todo-course.git
+git push -u origin main
+```
+
+### 👤 Learner
+
+its showing this
