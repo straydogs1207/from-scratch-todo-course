@@ -6,6 +6,13 @@ These notes explain every new term and concept we encounter as we build our data
 
 ## 1. C++ Keywords & Concepts
 
+### Why C++ instead of C?
+- **History:** C++ was created by Bjarne Stroustrup specifically to solve the headaches of C.
+- **In C:** There is no `string` type. You have to manually allocate memory with `malloc()`, free it with `free()`, manage raw pointers (`char*`), and compare strings with `strcmp()`. If you make one mistake, the program crashes with a `Segmentation fault`.
+- **In C++:** The `string` type does all of that memory allocation, resizing, and cleanup automatically under the hood. The resulting program runs just as fast, does the exact same thing, but requires 70% less boilerplate code.
+
+---
+
 ### `using namespace std;`
 - **What it does:** Saves you from typing `std::` over and over again.
 - **Why it exists:** In C++, standard tools like `cout`, `cin`, and `string` are stored in a toolbox called `std` (standard).
