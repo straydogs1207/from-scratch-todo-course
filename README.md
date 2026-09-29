@@ -1053,3 +1053,155 @@ Does this make the difference between RAM and SSD clear? If yes, we can start wi
 ### 👤 Learner
 
 so i think we have now known the basic so we can start the coding part and will you be teaching in c++ or c or somep art in c++ and most in c or maybe anyway else
+
+### 🤖 Instructor
+
+### Language Choice: We Will Use C++
+
+We will write our database in **C++**, following the exact architecture of [cstack's tutorial](https://cstack.github.io/db_tutorial/) step-by-step.
+
+**Why C++ instead of pure C?**
+- In **pure C**, strings don't exist. You have to manually allocate memory with `malloc()`, free it with `free()`, and manage raw pointers. If you make a tiny typo, the program crashes with `Segmentation fault (core dumped)`.
+- In **C++**, you already know `string` and `getline`. This lets us focus **100% on how the database engine works** without getting stuck on memory bugs.
+
+---
+
+# Part 2: The World's Simplest SQL Compiler & Virtual Machine
+*Reference: [cstack's "Let's Build a Simple Database" - Part 2](https://cstack.github.io/db_tutorial/parts/part2.html)*
+
+In Part 1, we made a simple loop that reads text. Now, in Part 2, cstack introduces the **two-step core of SQLite**:
+
+```
+User types text (e.g. "insert 1 milk")
+         │
+         ▼
+[ Step 1: SQL Compiler ]  ──>  Understands the command and checks for typos.
+         │
+         ▼
+[ Step 2: Virtual Machine ] ──>  Actually performs the action.
+```
+
+### Why split it into 2 steps?
+1. **Clear responsibilities**: Step 1 only cares about *understanding* the words. Step 2 only cares about *doing* the action.
+2. **Safety**: If the user makes a typo (like typing `deleeeete`), Step 1 catches it immediately so the database doesn't crash or touch your data.
+
+---
+
+### Step 2.1: Separating "Meta-Commands" from "SQL Statements"
+
+In SQLite, there are two kinds of inputs:
+
+1. **Meta-Commands**: Commands for the program itself (not data).  
+   They **always start with a dot `.`**, like `.exit` or `.help`.
+2. **SQL Statements**: Commands that touch data.  
+   They start with SQL keywords like `insert` or `select`.
+
+Let's look at the structure in C++:
+
+```cpp
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+// What kind of SQL command is it?
+enum StatementType {
+    STATEMENT_INSERT,
+    STATEMENT_SELECT
+};
+
+struct Statement {
+    St
+<truncated 608 bytes>
+ with "insert"?
+    if (input.rfind("insert", 0) == 0) {
+        statement.type = STATEMENT_INSERT;
+        return true;
+    }
+    // Is the input "select"?
+    if (input == "select") {
+        statement.type = STATEMENT_SELECT;
+        return true;
+    }
+    // Anything else is unknown
+    return false;
+}
+```
+
+#### Function 3: The Virtual Machine (`execute_statement`)
+Actually runs the command:
+```cpp
+void execute_statement(const Statement& statement) {
+    switch (statement.type) {
+        case STATEMENT_INSERT:
+            cout << "This is where we would do an insert.\n";
+            break;
+        case STATEMENT_SELECT:
+            cout << "This is where we would do a select.\n";
+            break;
+    }
+}
+```
+
+---
+
+### Step 2.3: Putting It All Together in `main()`
+
+Now our main loop is clean and organized:
+
+```cpp
+int main() {
+    string input;
+
+    while (true) {
+        cout << "db > ";
+        if (!getline(cin, input)) break;
+
+        // 1. If it starts with '.', it is a meta-command
+        if (!input.empty() && input[0] == '.') {
+            do_meta_command(input);
+            continue;
+        }
+
+        // 2. Otherwise, compile it into an SQL statement
+        Statement statement;
+        if (!prepare_statement(input, statement)) {
+            cout << "Unrecognized keyword at start of '" << input << "'.\n";
+            continue;
+        }
+
+        // 3. Execute the statement
+        execute_statement(statement);
+        cout << "Executed.\n";
+    }
+
+    return 0;
+}
+```
+
+I compiled and tested this program with `g++`. When you run it, here is how it behaves:
+
+```text
+db > insert 1 milk
+This is where we would do an insert.
+Executed.
+db > select
+This is where we would do a select.
+Executed.
+db > delete 1
+Unrecognized keyword at start of 'delete 1'.
+db > .exit
+Exiting database.
+```
+
+---
+
+### Checkpoint Question for You
+
+Look at `prepare_statement`:
+1. If the user types **`select`**, does it succeed or fail?
+2. If the user types **`delete 1`**, why does it say `Unrecognized keyword at start of 'delete 1'.`?
+
+### 👤 Learner
+
+actually i haven't done part 1 so start from there
