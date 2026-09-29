@@ -38,24 +38,20 @@ These notes explain every new term and concept we encounter as we build our data
 - **How it works:**
   - `!true` becomes `false`
   - `!false` becomes `true`
-- **Example:**
-  ```cpp
-  bool is_raining = false;
-  if (!is_raining) {
-      cout << "It is NOT raining!";
-  }
-  ```
 
 ---
 
-### `if (!getline(cin, input))`
-- **What it means:** *"If reading input did NOT succeed, then stop."*
-- **Why it's there:**
-  - `getline(cin, input)` returns `true` when it successfully reads a line you typed.
-  - It returns `false` if the input stream suddenly ends (for example, if you press **Ctrl + D** in the terminal to close the program, or if commands are fed from a file that ended).
-- **What happens without it?**
-  - If you hit **Ctrl + D** without this check, your program gets stuck in a crazy infinite loop printing `db > db > db > ...` millions of times per second.
-  - Putting `!` before `getline` is a **safety net** so the program shuts down gracefully if input stops.
+### What does "Reading Succeeded or Failed" Mean? (`!getline`)
+Think of `cin` like a **straw** connected to your keyboard:
+- **Normal typing (Success):** You type `hello` and press Enter. Letters flow through the straw. `getline` drinks the letters and reports **Success** (`true`).
+- **End of Input / EOF (Failure):** What if someone cuts the straw or there is nothing left to read? `getline` reports **Failure** (`false`).
+- **When does reading fail?**
+  1. **When reading from a file:** If your database reads commands from a file, once it reaches the last line of the file, there is nothing left. `getline` fails, telling the program to stop.
+  2. **When user presses Ctrl + D:** In Linux/Mac terminals, pressing **Ctrl + D** means: *"I am hanging up the phone, no more input is coming."*
+
+### Difference Between `Ctrl + C` and `Ctrl + D`:
+- **`Ctrl + C` (Force Kill):** Like pulling the power cord out of the wall. The operating system forcefully kills your program instantly.
+- **`Ctrl + D` (Polite Hangup / EOF):** Closes the input straw. `if (!getline(...))` catches this polite hangup and allows the program to exit cleanly on its own!
 
 ---
 
