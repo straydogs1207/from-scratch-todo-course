@@ -983,3 +983,73 @@ Does this mental picture make sense to you? If any part feels unclear, tell me, 
 ### 👤 Learner
 
 now i want to know like where is this database is saved i mean you said it is saved in a file like which kind of file and where i think the article mentioned it is saved in ram or ssd
+
+### 🤖 Instructor
+
+You asked a brilliant question, and you caught an important detail from the article!
+
+Here is the exact answer to:
+1. **What kind of file is it?**
+2. **Where does it physically live?**
+3. **Why did the article mention both RAM and SSD?**
+
+---
+
+### 1. What kind of file is it?
+
+When our database creates a file, it is named something like:
+`mydb.db` (or `todos.db`).
+
+Now, what *kind* of file is `.db`?
+- It is **NOT a text file** like `.txt` or `.html`.
+- If you open `mydb.db` in VS Code or Notepad, you will not see normal English sentences. You will see weird gibberish characters, like:
+  ```text
+  ^@^@^A^@^@^@Buy milk^@^@^@^@^@^@...
+  ```
+- **Why? Because it is a Binary File.**  
+  In a text file, the number `1,000,000` takes 7 characters (7 bytes of text: `'1'`, `'0'`, `'0'`, `'0'`, `'0'`, `'0'`, `'0'`).  
+  In a binary file, any number up to 4 billion takes **only 4 raw bytes** of data. A binary file packs numbers and text tightly together as raw numbers so it takes almost no space and the computer can read it 100x faster.
+
+---
+
+### 2. Where is this file saved on your computer?
+
+It lives in the **exact same folder where your program runs on your SSD (Solid State Drive) / Hard Drive.**
+
+For example, right on your computer, if our code is running in:
+```text
+/home/ashutosh-goyal/my_project/
+```
+The file will be created right next to it:
+```text
+/home/ashutosh-goyal/my_project/mydb.db
+```
+Because it is on your SSD, it is **permanent**. You can close the program, restart your laptop, open the program tomorrow, and your todos will still be right there in that `.db` file.
+
+---
+
+### 3. Why did the article mention both RAM and SSD?
+
+This is the exact learning path cstack uses in his tutorial:
+
+| Tutorial Part | Where is data saved? | What happens when you exit? |
+| :--- | :--- | :--- |
+| **Part 3**: *"An In-Memory Database"* | **RAM only** | Data disappears when program closes |
+| **Part 5**: *"Persistence to Disk"* | **SSD / Hard Drive (`mydb.db`)** | Data stays forever |
+
+#### Why did he split it into two steps?
+- In **Part 3**, the author says: *"Saving to a real file on the hard drive has extra details. Let's first build the logic in **RAM** (using standard variables) so we can see our database add and print rows."*
+- Then, in **Part 5**, he says: *"Great! Now that we know our rows work in RAM, let's connect it to a real file on the **SSD** so our data stays saved forever."*
+
+---
+
+### Summary Checklist:
+1. **The file format:** A custom **binary file** (named `mydb.db`).
+2. **The physical location:** On your **SSD** inside your project folder.
+3. **The strategy:** We first test our rows in **RAM** (so it's easy and safe), and then we teach it how to save to the **SSD**!
+
+Does this make the difference between RAM and SSD clear? If yes, we can start with the first step of **Part 2** from cstack!
+
+### 👤 Learner
+
+so i think we have now known the basic so we can start the coding part and will you be teaching in c++ or c or somep art in c++ and most in c or maybe anyway else
