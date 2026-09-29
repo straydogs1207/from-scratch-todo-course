@@ -1781,3 +1781,99 @@ Try typing `milk`, then `hello`, and then `.exit`! Let me know what prints out o
 ### 👤 Learner
 
 this is what it printed and i think after doing this basically what we had done like i think this is somewhat related to like how sqlite talks with database or somewhat tooks response from the user and then interprets it maybe the 2nd one is more correct
+
+### 🤖 Instructor
+
+**YES! Look at that screenshot!** 🎉
+
+You just compiled, ran, and interacted with your very own database program directly in your Linux terminal. Notice also that in your first try, you tested `^C` (Ctrl + C) and killed it, and in your second try, you tested `.exit` and closed it cleanly. That is awesome!
+
+### Your intuition was 100% right:
+> *"this is somewhat related to like how sqlite takes response from the user and then interprets it"*
+
+**That is exactly what it is.**  
+In the official SQLite documentation, this is called the **Front-End / Parser**. It is the "front door" that listens to what the human types and interprets what they want to do.
+
+Right now, our front door is very basic:
+- It only understands one single command: `.exit`.
+- For everything else (like your `hello0`), it says *"I don't recognize that command yet."*
+
+---
+
+# Moving to Part 2: Teaching It to Understand `insert` and `select`
+
+*Reference: [cstack's Part 2 - World's Simplest SQL Compiler and Virtual Machine](https://cstack.github.io/db_tutorial/parts/part2.html)*
+
+Now we are going to teach our interpreter two real database commands:
+1. **`insert`** (to add a new todo item)
+2. **`select`** (to display all our todo items)
+
+### The Architecture: 2 Steps
+In Part 2, cstack explains that SQLite splits this work into two functions:
+
+1. **`prepare_statement()` (The Compiler)**:  
+   Reads the string and checks: *"Is this an `insert` command? Or is this a `select` command? Or is it gibberish?"*
+2. **`execute_statement()` (The Worker / Virtual Machine)**:  
+   Actually performs the command.
+
+---
+
+### Step 1: Telling C++ What Kinds of Statements Exist
+
+In C++, when we have a fixed list of options, we use an **`enum`** (short for *enumeration* / a list of named choices):
+
+```cpp
+// There are only two types of SQL statements in our database right now:
+enum StatementType {
+    STATEMENT_INSERT,
+    STATEMENT_SELECT
+};
+
+// A box to hold our statement:
+struct Statement {
+    StatementType type;
+};
+```
+
+Think of `Statement` like a work ticket:
+- If the user types `insert ...`, the compiler stamps the ticket: `type = STATEMENT_INSERT`.
+- If the user types `select`, the compiler stamps the ticket: `type = STATEMENT_SELECT`.
+
+---
+
+### Step 2: The Compiler Function (`prepare_statement`)
+
+Here is the function that reads your text and stamps the ticket:
+
+```cpp
+bool prepare_statement(const string& input, Statement& statement) {
+    // Check if the user typed something starting with "insert"
+    if (input.rfind("insert", 0) == 0) {
+        statement.type = STATEMENT_INSERT;
+        return true; // Success!
+    }
+
+    // Check if the user typed "select"
+    if (input == "select") {
+        statement.type = STATEMENT_SELECT;
+        return true; // Success!
+    }
+
+    // If it's neither of those, return false (Failure!)
+    return false;
+}
+```
+
+*(Note: `input.rfind("insert", 0) == 0` is just C++'s way of checking: "Does the word start with `insert` at position 0?")*
+
+---
+
+### Quick Check Before We Add the Worker Function
+
+Look at `prepare_statement` above:
+1. If the user types **`insert milk`**, will `prepare_statement` return `true` or `false`?
+2. If the user types **`delete milk`**, will it return `true` or `false`?
+
+### 👤 Learner
+
+you have moven to part 2 but doesn't part 1 contain a completly different thing i mean what you have taught isn't even there in the final code of part 1 of cstack
