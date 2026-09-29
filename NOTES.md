@@ -33,11 +33,29 @@ These notes explain every new term and concept we encounter as we build our data
 
 ---
 
-### `getline(cin, input)`
-- **What it does:** Reads an entire line of text typed by the user until they press **Enter**.
-- **Difference from `cin >> input`:**
-  - `cin >> input` stops at the first space (so typing `"Buy milk"` only captures `"Buy"`).
-  - `getline(cin, input)` captures the full sentence with spaces (`"Buy milk"`).
+### The `!` (Logical NOT) Operator
+- **What it means:** "NOT" or "Opposite of".
+- **How it works:**
+  - `!true` becomes `false`
+  - `!false` becomes `true`
+- **Example:**
+  ```cpp
+  bool is_raining = false;
+  if (!is_raining) {
+      cout << "It is NOT raining!";
+  }
+  ```
+
+---
+
+### `if (!getline(cin, input))`
+- **What it means:** *"If reading input did NOT succeed, then stop."*
+- **Why it's there:**
+  - `getline(cin, input)` returns `true` when it successfully reads a line you typed.
+  - It returns `false` if the input stream suddenly ends (for example, if you press **Ctrl + D** in the terminal to close the program, or if commands are fed from a file that ended).
+- **What happens without it?**
+  - If you hit **Ctrl + D** without this check, your program gets stuck in a crazy infinite loop printing `db > db > db > ...` millions of times per second.
+  - Putting `!` before `getline` is a **safety net** so the program shuts down gracefully if input stops.
 
 ---
 

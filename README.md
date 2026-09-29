@@ -1344,3 +1344,88 @@ Tell me what you see on your terminal when you run it!
 ### 👤 Learner
 
 what does this means like you have not put std before cout and strig and other things like does it tell it to automatically consider it and what does this true means here does it mean like keep running it without ever stopping also what does this break means here like if the if condition is satisified stop the command like i haven't studied these terms in c++ so if you can give a brief about them then it would be helful plus can you give me like a bit of notes to remember new terms and basically i can revise these things later so i don't forget what i studied
+
+### 🤖 Instructor
+
+Your intuition is **spot-on**. Every single guess you made was 100% correct!
+
+Here is the exact breakdown of the three things you circled:
+
+---
+
+### 1. `using namespace std;` (Image 1)
+
+**Your guess:** *"does it tell it to automatically consider it?"*  
+👉 **Yes, exactly!**
+
+In C++, all standard library tools—like `cout`, `cin`, `string`, and `getline`—live inside a toolbox called **`std`** (short for *standard*).
+
+- **Without this line**, C++ forces you to type `std::` before every single tool:
+  ```cpp
+  std::string input;
+  std::cout << "db > ";
+  std::getline(std::cin, input);
+  ```
+- **With `using namespace std;`**, you are telling C++:  
+  *"Anytime I write `cout`, `cin`, or `string`, automatically know I mean the standard one."* It saves you from typing `std::` hundreds of times.
+
+---
+
+### 2. `while (true) {` (Image 2)
+
+**Your guess:** *"does it mean like keep running it without ever stopping?"*  
+👉 **Yes, exactly!** This is called an **infinite loop**.
+
+A normal `while` loop checks a condition:
+- `while (score < 100)`: keeps running until score hits 100.
+- `while (true)`: because `true` is **always true**, the loop never finishes on its own.
+
+**Why do databases use this?**  
+Because a database must stay open waiting for you to type commands. If it didn't have an infinite loop, it would print `db > ` once, read one word, and immediately close your program.
+
+---
+
+### 3. `break;` (Image 3)
+
+**Your guess:** *"does this break means like if the if condition is satisfied stop the command?"*  
+👉 **Yes! It is the Emergency Exit button.**
+
+Because `while (true)` runs forever, how does the user ever close the database?
+
+That's where `break;` comes in:
+```cpp
+if (input == ".exit") {
+    cout << "Exiting database.\n";
+    break; // INSTANTLY escapes the while(true) loop!
+}
+```
+When C++ sees `break;`, it stops the loop immediately and jumps to whatever is after the loop's closing curly brace `}`.
+
+---
+
+### 📝 Your Personal Revision Notes File is Live!
+
+I created a dedicated revision notes file for you called [`NOTES.md`](file:///home/ashutosh-goyal/.gemini/antigravity/scratch/from-scratch-todo-course/NOTES.md) inside your repository and pushed it to GitHub!
+
+You can bookmark and open it on your phone or laptop whenever you want to revise:  
+👉 **[https://github.com/straydogs1207/from-scratch-todo-course/blob/main/NOTES.md](https://github.com/straydogs1207/from-scratch-todo-course/blob/main/NOTES.md)**
+
+Every time we encounter new terms, we will add them to this file so you never forget them.
+
+---
+
+### Now, let's try running it!
+
+Open your laptop terminal, go to your project folder, and run:
+
+```bash
+cd /home/ashutosh-goyal/.gemini/antigravity/scratch/from-scratch-todo-course
+g++ -std=c++17 main.cpp -o db
+./db
+```
+
+Type `hello`, press Enter, then type `.exit`, and tell me what prints on your screen!
+
+### 👤 Learner
+
+lastly why did you like added ! this before getline i mean is it necessary and what does this it and entire code do
