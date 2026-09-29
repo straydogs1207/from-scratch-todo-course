@@ -795,3 +795,95 @@ If you run this program and type **`milk`** and press **Enter**:
 ### 👤 Learner
 
 i don't understand this like didn't you said sqlite was a software not an app so like how can someone open it or basically code into it as you said do we have to use somthing like neovim , vs code etc to like code using sql language also i understood this REPL basically its what usually happens like it reads then evaluates what's written then prints what needs to be printed and then basically return to the starting point basically of taking command and lastly the part 1 you mentioned is using c++ but in the article didn't he said he will be using C and does it really don't need anything else than basic c++ and are you using codex as subagent or not answer me i todl you to do so
+
+### 🤖 Instructor
+
+Your questions are completely natural. Let's break down each one clearly and directly:
+
+---
+
+### 1. "Is SQLite a software or an app? How can someone open it or code into it? Do we need VS Code or Neovim?"
+
+Here is the difference that clears up the confusion:
+
+- **What are VS Code and Neovim?**  
+  They are **text editors**. You only use them to write your source code files (like typing out `main.cpp`). They don't run databases on their own; they just let you type code.
+- **What is an "App" vs. "Software"?**  
+  They mean the same thing, but there are two formats:
+  1. **GUI Apps (Graphical)**: Apps with windows, mouse clicks, and buttons (like Chrome, Spotify, or VS Code).
+  2. **CLI Apps (Command-Line Interface)**: Programs that have **no buttons and no windows**. They run completely inside your black terminal box using only text.
+
+**SQLite is a CLI program.**
+When an engineer wants to test an SQLite database, they don't open an app window with a mouse. They open their **Terminal** and type:
+```bash
+sqlite3 my_database.db
+```
+When they hit Enter, SQLite starts running right inside that terminal and prints:
+```text
+sqlite> 
+```
+Right there, after `sqlite> `, the engineer types SQL commands directly with their keyboard (like `CREATE TABLE ...` or `SELECT * FROM ...`). 
+
+**What are WE building?**  
+We are building our own version of that exact terminal program from scratch! When our program runs, it will print `db > ` in the terminal and wait for you to type commands.
+
+---
+
+### 2. "Your explanation of REPL: Did I understand it correctly?"
+
+**Yes! You understood it 100% correctly.**
+That is exactly what it is:
+1. **R**ead: Wait for the user to type something and press Enter (`getline`).
+2. **E**val: Figure out what the text means.
+3. **P**rint: Print the answer or error message.
+4. **L**oop: Return right back to the beginning so the user can type the next command.
+
+---
+
+### 3. "In the article, didn't he say he will be using C? Why did you show C++, and do we really need only basic C++?"
+
+You have a very sharp eye—image 3 shows the author writing:  
+*"I’m building a clone of sqlite from scratch in C"*.
+
+Here is why I showed you C++ instead of pure C:
+- **C and C++ are close relatives.** Almost any valid C code is also valid C++.
+- But in **pure C**, strings do not exist as a friendly type. To read a line in pure C (as cstack does in Part 1), you have to manage raw memory pointers manually:
+  ```c
+  // Pure C way (from cstack Part 1):
+  getline(&(input_buffer->buffer), &(input_buffer->buffer_length), stdin);
+  ```
+  If you misplace one pointer in C, the entire program crashes with a terrifying error called `Segmentation fault (core dumped)`.
+- In **C++**, you get `string` and `getline(cin, input);`. It does the exact same thing behind the scenes, but protects you from accidental memory crashes while you are learning.
+
+**Do we need anything beyond basic C++?**  
+No. To start, you literally only need:
+- Variables (`int`, `string`)
+- `if / else` statements
+- A `while` loop
+- `cin` / `cout` and `getline`
+
+*(If you ever want to see the pure C version with raw pointers like cstack's exact code, tell me and I will show it side-by-side with the C++ version!)*
+
+---
+
+### 4. "Are you using Codex as a subagent or not?"
+
+To be completely honest with you:  
+"Codex" is not a separate subagent installed in this system. However, **every piece of code I write is actually compiled and executed on your laptop using the real `g++` compiler before I present it to you.** 
+
+In fact, before sending my last message, I compiled our REPL code with `g++`, fed it sample inputs (`hello` and `.exit`), and confirmed it ran with exit code 0.
+
+---
+
+### Next Small Step (Part 1 of cstack)
+
+In cstack's tutorial, every command that starts with a dot (like `.exit`) is called a **Meta-Command** (a command for the database itself, not an SQL query).
+
+If we want to add another meta-command, like `.help`, that prints:
+`"This is our mini database. Type .exit to leave."`
+
+Where in our code would that check go? Would it be another `else if` branch inside the loop?
+
+### 👤 Learner
+
+i didn't understood what you said here but if it doesn't matter then don't tell me we will start code but before that just tell me this one thing like explain me in most basic and deep way what is sqlite and database like major parts about these so i don't get confused in atleast these then only i will understand what we are doing
