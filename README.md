@@ -1205,3 +1205,142 @@ Look at `prepare_statement`:
 ### 👤 Learner
 
 actually i haven't done part 1 so start from there
+
+### 🤖 Instructor
+
+Understood! Let's do **Part 1** properly from scratch, step-by-step, so you write it and run it yourself.
+
+Reference: **[cstack's Part 1 - Setting up the REPL](https://cstack.github.io/db_tutorial/parts/part1.html)**
+
+---
+
+### The Goal of Part 1
+
+By the end of Part 1, we want a real program running on your laptop that:
+1. Shows a prompt: `db > `
+2. Waits for you to type something and press Enter.
+3. If you type `.exit`, it stops and exits cleanly.
+4. If you type anything else (like `hello`), it tells you: `Unrecognized command 'hello'.` and waits again.
+
+---
+
+### Let's Build It in 4 Small Steps
+
+#### Step 1: The Starting Boilerplate
+Every C++ program starts with these basic includes:
+
+```cpp
+#include <iostream>  // For cout and cin
+#include <string>    // For string and getline
+
+using namespace std;
+
+int main() {
+    // Our code will live here
+    return 0;
+}
+```
+
+---
+
+#### Step 2: The Infinite Loop
+A database should not quit after one command—it should stay open waiting for you until you tell it to stop. 
+
+We use a `while (true)` loop:
+
+```cpp
+int main() {
+    string input;
+
+    while (true) {
+        cout << "db > ";
+        
+        // Wait for the user to type a line
+        if (!getline(cin, input)) {
+            break; // If user presses Ctrl+D or input closes, stop
+        }
+    }
+
+    return 0;
+}
+```
+
+*What `getline(cin, input)` does:*  
+It pauses your program, waits for you to type words and press **Enter**, and then puts that text inside the variable `input`.
+
+---
+
+#### Step 3: Checking What Was Typed
+Now, right after `getline`, we check what the user typed:
+
+```cpp
+        // Did they type ".exit"?
+        if (input == ".exit") {
+            cout << "Exiting database.\n";
+            break; // Breaks out of the while loop and closes the program
+        } else {
+            cout << "Unrecognized command '" << input << "'.\n";
+        }
+```
+
+---
+
+### The Complete Part 1 Code
+
+Here is the entire file put together. I saved it directly to your project folder at [`main.cpp`](file:///home/ashutosh-goyal/.gemini/antigravity/scratch/from-scratch-todo-course/main.cpp):
+
+```cpp
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+int main() {
+    string input;
+
+    while (true) {
+        cout << "db > ";
+        if (!getline(cin, input)) {
+            break;
+        }
+
+        if (input == ".exit") {
+            cout << "Exiting database.\n";
+            break;
+        } else {
+            cout << "Unrecognized command '" << input << "'.\n";
+        }
+    }
+
+    return 0;
+}
+```
+
+---
+
+### How to Compile and Run It on Your Laptop
+
+Open your terminal and run these two commands:
+
+1. **Compile it** into an executable named `db`:
+   ```bash
+   g++ -std=c++17 /home/ashutosh-goyal/.gemini/antigravity/scratch/from-scratch-todo-course/main.cpp -o db
+   ```
+
+2. **Run it**:
+   ```bash
+   ./db
+   ```
+
+Try running it and typing:
+```text
+hello
+my todo
+.exit
+```
+
+Tell me what you see on your terminal when you run it!
+
+### 👤 Learner
+
+what does this means like you have not put std before cout and strig and other things like does it tell it to automatically consider it and what does this true means here does it mean like keep running it without ever stopping also what does this break means here like if the if condition is satisified stop the command like i haven't studied these terms in c++ so if you can give a brief about them then it would be helful plus can you give me like a bit of notes to remember new terms and basically i can revise these things later so i don't forget what i studied
