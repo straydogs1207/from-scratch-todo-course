@@ -55,6 +55,16 @@ Think of `cin` like a **straw** connected to your keyboard:
 
 ---
 
+### Common C++ Syntax Rules (Braces & Semicolons)
+1. **Matching Braces:** Every opening `{` MUST have a matching closing `}`. A parenthesis `)` cannot close a `{`.
+2. **Every Statement Needs a Semicolon `;`:** After `cout << ... \n"`, always end with a semicolon `;` before the closing brace `}`.
+3. **Handling Folders with Spaces in Terminal:** When a folder name has spaces (e.g. `important coding files`), always wrap the path in quotes `"..."` in the terminal:
+   ```bash
+   cd "/home/ashutosh-goyal/important coding files"
+   ```
+
+---
+
 ## 2. Database Concepts (Module 1)
 
 ### REPL (Read-Eval-Print Loop)
