@@ -2307,3 +2307,76 @@ Now, does the difference between Capital `Statement` (the type) and lowercase `s
 ### 👤 Learner
 
 its showing this
+
+### 🤖 Instructor
+
+Look at the compiler error in your screenshot:
+
+```text
+error: ‘statement’ was not declared in this scope; did you mean ‘Statement’?
+```
+
+### What does this error mean?
+
+In C++, you **cannot use a variable before creating (declaring) it.**
+
+For example, if you write:
+```cpp
+x = 10;
+```
+C++ stops and says: *"What is x? You never created it! Did you mean `int x;`?"*
+
+---
+
+### The One Missing Line
+
+In your file, you jumped straight to using `statement`:
+```cpp
+// Line 60 in your file:
+if(!prepare_statement(input, statement)){
+```
+C++ is saying: *"Who is `statement`? You never declared it!"*
+
+To fix it, you just need **one line** right above it to create the variable:
+```cpp
+Statement statement;
+```
+
+---
+
+### Exactly How Lines 55–67 Should Look in Your File:
+
+Open `cstack_database.cpp` and look inside your `while(true)` loop. Add that single line right here:
+
+```cpp
+        if(input == ".exit"){
+            cout << " Exiting Database.\n";
+            break;
+        }
+
+        // ADD THIS LINE RIGHT HERE:
+        Statement statement;
+
+        if(!prepare_statement(input, statement)){
+            cout << "Unrecognized keyword at start of '" << input << "'.\n";
+            continue;
+        }
+
+        execute_statement(statement);
+        cout << "Executed.\n";
+```
+
+---
+
+Now save the file and recompile in your terminal:
+
+```bash
+g++ -std=c++17 cstack_database.cpp -o cstack_database
+./cstack_database
+```
+
+It will compile with **zero errors**! Try typing `insert milk`, then `select`, and watch it work!
+
+### 👤 Learner
+
+its showing this finally
