@@ -6,23 +6,39 @@ These notes explain every new term and concept we encounter as we build our data
 
 ## 1. C++ Keywords & Concepts
 
-### Compiler Error: `was not declared in this scope`
-- **What it means:** You are trying to use a variable before creating (declaring) it.
-- **Example:**
-  ```cpp
-  x = 10; // ERROR: 'x' was not declared! (C++ asks: what is x? An int? A string?)
-  ```
-- **The fix:** Always declare the variable with its Type first:
-  ```cpp
-  int x;
-  x = 10; // Correct!
-  ```
-- **In our database:**
-  Before passing `statement` to `prepare_statement(input, statement)`, you must create the variable:
-  ```cpp
-  Statement statement; // Creates the ticket!
-  if (!prepare_statement(input, statement)) { ... }
-  ```
+### Deep Dive: `struct` (Custom Data Boxes)
+- **What is it?** A `struct` is a blueprint to bundle multiple variables together into one custom box.
+- **Why do we need it?** Without a `struct`, variables float around loosely. With a `struct`, related variables are kept together in a single package.
+- **The Dot `.` Operator:** Used to reach inside a struct box to read or write a value (e.g., `p1.health = 100;`).
+
+#### Easy Example (Game Character):
+```cpp
+// 1. The Blueprint
+struct Player {
+    string name;
+    int health;
+};
+
+// 2. Creating an actual player box:
+Player p1;
+p1.name = "Mario"; // Reach inside p1 and set name
+p1.health = 100;   // Reach inside p1 and set health
+```
+
+#### Our Database Example (`struct Statement`):
+- **Analogy:** A Restaurant Order Ticket.
+  - The waiter (`prepare_statement`) writes the order on the ticket.
+  - The kitchen (`execute_statement`) reads the ticket and cooks the meal.
+```cpp
+// 1. The Ticket Blueprint
+struct Statement {
+    StatementType type; // What kind of order is it? (INSERT or SELECT)
+};
+
+// 2. Creating and filling the ticket:
+Statement statement;
+statement.type = STATEMENT_INSERT; // Reach inside and stamp the ticket!
+```
 
 ---
 
@@ -45,13 +61,6 @@ C++ is strictly **case-sensitive** (`Statement` and `statement` are two differen
 - **Analogy:**
   - `Car` (Blueprint / Design) vs `my_car` (The actual car parked in your garage).
   - When passing into a function: you pass the **actual car** (`statement`), NOT the blueprint (`Statement`).
-
----
-
-### Why C++ instead of C?
-- **History:** C++ was created by Bjarne Stroustrup specifically to solve the headaches of C.
-- **In C:** There is no `string` type. You have to manually allocate memory with `malloc()`, free it with `free()`, manage raw pointers (`char*`), and compare strings with `strcmp()`. If you make one mistake, the program crashes with a `Segmentation fault`.
-- **In C++:** The `string` type does all of that memory allocation, resizing, and cleanup automatically under the hood. The resulting program runs just as fast, does the exact same thing, but requires 70% less boilerplate code.
 
 ---
 
