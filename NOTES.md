@@ -6,6 +6,26 @@ These notes explain every new term and concept we encounter as we build our data
 
 ## 1. C++ Keywords & Concepts
 
+### Compiler Error: `was not declared in this scope`
+- **What it means:** You are trying to use a variable before creating (declaring) it.
+- **Example:**
+  ```cpp
+  x = 10; // ERROR: 'x' was not declared! (C++ asks: what is x? An int? A string?)
+  ```
+- **The fix:** Always declare the variable with its Type first:
+  ```cpp
+  int x;
+  x = 10; // Correct!
+  ```
+- **In our database:**
+  Before passing `statement` to `prepare_statement(input, statement)`, you must create the variable:
+  ```cpp
+  Statement statement; // Creates the ticket!
+  if (!prepare_statement(input, statement)) { ... }
+  ```
+
+---
+
 ### Type vs. Variable Name (Capital vs. Lowercase)
 C++ is strictly **case-sensitive** (`Statement` and `statement` are two different things!).
 - **Capital `Statement` (The Type / Blueprint):**
@@ -25,7 +45,6 @@ C++ is strictly **case-sensitive** (`Statement` and `statement` are two differen
 - **Analogy:**
   - `Car` (Blueprint / Design) vs `my_car` (The actual car parked in your garage).
   - When passing into a function: you pass the **actual car** (`statement`), NOT the blueprint (`Statement`).
-  - If you pass `Statement` with a capital S, C++ gives an error: *"Statement does not refer to a value"*.
 
 ---
 

@@ -2231,3 +2231,79 @@ Tell me what it prints when you try those commands!
 ### 👤 Learner
 
 i think you have written the code wrong because in some places in statement word the s would be capital but you have written it small like in if(!prepare_statement(input, statement)) , s should be capital and similarly in execute command
+
+### 🤖 Instructor
+
+You have a **super sharp eye**, and asking about this is a huge milestone in learning C++!
+
+C++ is strictly **case-sensitive** (it treats `Statement` and `statement` as two completely different words).
+
+Here is why one is Capital and one is Small:
+
+---
+
+### The Blueprint vs. The Actual Object
+
+In C++, whenever you create a custom structure, you have two things:
+1. **The Type / Blueprint** (Capital `Statement`)
+2. **The Variable / Actual Object** (Small `statement`)
+
+Look at this line inside `main()`:
+```cpp
+Statement statement;
+//   ▲         ▲
+//   │         │
+//  TYPE    VARIABLE
+```
+
+Think of it like this:
+
+| Concept | C++ Example | Real-World Analogy |
+| :--- | :--- | :--- |
+| **The Blueprint / Category** | `Statement` (Capital **S**) | **Car** (The factory blueprint / design) |
+| **The Actual Object** | `statement` (Small **s**) | **my_car** (The actual metal car sitting in your driveway) |
+
+Another example you already know:
+```cpp
+int x;      // 'int' is the Type, 'x' is the variable
+string s;   // 'string' is the Type, 's' is the variable
+```
+
+---
+
+### Why is it small `statement` in `prepare_statement` and `execute_statement`?
+
+When you call a function to do work on your data, you don't hand it the blueprint—**you hand it the actual object**!
+
+```cpp
+// We pass the actual variable (small 's'):
+if (!prepare_statement(input, statement)) {
+    // ...
+}
+
+// We pass the actual variable (small 's'):
+execute_statement(statement);
+```
+
+#### What happens if you put Capital `Statement` there?
+If you wrote:
+```cpp
+execute_statement(Statement); // Capital S
+```
+The C++ compiler would stop and scream:  
+❌ *"Error: 'Statement' does not refer to a value!"*  
+Because `Statement` is just the name of the blueprint, not the actual ticket you created!
+
+---
+
+### Summary Rule to Remember:
+- When you define what the struct is: use **Capital `Statement`** (the blueprint).
+- When you create the variable and pass it to functions: use **lowercase `statement`** (the actual object).
+
+I added this exact rule with the Car analogy into your live **[`NOTES.md`](https://github.com/straydogs1207/from-scratch-todo-course/blob/main/NOTES.md)** so you can revise it anytime!
+
+Now, does the difference between Capital `Statement` (the type) and lowercase `statement` (the variable) make sense?
+
+### 👤 Learner
+
+its showing this
