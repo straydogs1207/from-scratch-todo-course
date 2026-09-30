@@ -6,13 +6,13 @@ These notes explain every new term and concept we encounter as we build our data
 
 ## 1. C++ Keywords & Concepts
 
-### How Variables are Created in C++: `DataType variableName;`
-In C++, every variable is created using the exact same two-word pattern:
+### The Golden Definition of a `struct`:
+> **"A `struct` creates a brand new data type that can hold other data types inside it (like `int`, `string`, `double`, `bool`, or even other custom types!)."**
+
+Look at how custom structs follow the exact same rule as built-in types:
 ```cpp
 DataType variableName;
 ```
-
-Look at how custom structs follow the exact same rule as built-in types:
 
 | DataType (The Kind of Box) | variableName (Your Custom Name) | What it creates |
 | :--- | :--- | :--- |
@@ -23,30 +23,21 @@ Look at how custom structs follow the exact same rule as built-in types:
 | **`Statement`** | **`statement;`** | **Creates a Statement box named `statement`** |
 
 - **`p1` is NOT a value!** `p1` is the **name of the variable** (just like `x` or `name`).
-- You could name it anything: `Player y;`, `Player hero;`, or `Player mario;`.
-
----
-
-### Does a `struct` need an `enum` first?
-- **NO!** The keyword `struct` **itself** defines a brand new data type.
-- Once you write `struct Player { ... };`, the word `Player` becomes a real, valid data type in C++, just like `int` or `string`.
-- **Difference between `enum` and `struct`:**
-  - **`enum`**: Used when a variable can only be **one single choice from a list of words** (e.g. `RED`, `YELLOW`, `GREEN`).
-  - **`struct`**: Used when you want to **bundle multiple variables together** into a single container (e.g. `name` + `health`).
+- The keyword `struct` **itself** defines this new type. No `enum` needed!
 
 ---
 
 ### Deep Dive: `struct` (Custom Data Boxes)
-- **What is it?** A `struct` is a blueprint to bundle multiple variables together into one custom box.
-- **Why do we need it?** Without a `struct`, variables float around loosely. With a `struct`, related variables are kept together in a single package.
+- **What is it?** A `struct` bundles multiple variables together into one custom box.
 - **The Dot `.` Operator:** Used to reach inside a struct box to read or write a value (e.g., `p1.health = 100;`).
 
 #### Easy Example (Game Character):
 ```cpp
 // 1. The Blueprint (Defines the new type 'Player')
 struct Player {
-    string name;
-    int health;
+    string name;   // Holds a string inside
+    int health;    // Holds an int inside
+    double speed;  // Holds a double inside
 };
 
 // 2. Creating an actual player box:
@@ -56,13 +47,10 @@ p1.health = 100;   // Reach inside p1 and set health
 ```
 
 #### Our Database Example (`struct Statement`):
-- **Analogy:** A Restaurant Order Ticket.
-  - The waiter (`prepare_statement`) writes the order on the ticket.
-  - The kitchen (`execute_statement`) reads the ticket and cooks the meal.
 ```cpp
 // 1. The Ticket Blueprint
 struct Statement {
-    StatementType type; // What kind of order is it? (INSERT or SELECT)
+    StatementType type; // Holds our custom StatementType inside!
 };
 
 // 2. Creating and filling the ticket:
@@ -83,7 +71,7 @@ C++ is strictly **case-sensitive** (`Statement` and `statement` are two differen
 
 ### `enum` (Enumeration)
 - **What it does:** A list of named options/choices.
-- **Why we use it:** Instead of using numbers like `0` or `1` for commands, we give them human names:
+- **Why we use it:** When a variable can only be **one choice from a fixed list of words**:
   ```cpp
   enum StatementType {
       STATEMENT_INSERT,
