@@ -13,6 +13,26 @@ These notes explain every new term and concept we encounter as we build our data
 
 ---
 
+### `enum` (Enumeration)
+- **What it does:** A list of named options/choices.
+- **Why we use it:** Instead of using numbers like `0` or `1` for commands, we give them human names:
+  ```cpp
+  enum StatementType {
+      STATEMENT_INSERT,
+      STATEMENT_SELECT
+  };
+  ```
+
+---
+
+### `continue;`
+- **What it does:** Skips the rest of the current loop round and immediately jumps back to the top of the loop.
+- **Difference from `break;`:**
+  - `break;`: Exits and stops the loop permanently.
+  - `continue;`: Jumps straight back to `cout << "db > "` for the next command.
+
+---
+
 ### `using namespace std;`
 - **What it does:** Saves you from typing `std::` over and over again.
 - **Why it exists:** In C++, standard tools like `cout`, `cin`, and `string` are stored in a toolbox called `std` (standard).
@@ -31,12 +51,6 @@ These notes explain every new term and concept we encounter as we build our data
 ### `break;`
 - **What it does:** The **emergency exit** for a loop.
 - **How it works:** When C++ hits `break;`, it instantly terminates the loop and jumps to the code below the closing curly brace `}`.
-- **Example:**
-  ```cpp
-  if (input == ".exit") {
-      break; // Stops the while(true) loop immediately!
-  }
-  ```
 
 ---
 

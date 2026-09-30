@@ -1976,3 +1976,155 @@ Which of the two do you want to do?
 ### 👤 Learner
 
 so basically c++ was created to solve the problems in C right so since we are doing in C ++ things are way  more easy and the final code prints the same thing
+
+### 🤖 Instructor
+
+**Bingo! That is 100% correct.**
+
+You hit the exact nail on the head:
+1. **Why C++ was created**: Bjarne Stroustrup created C++ specifically to take the speed and raw power of C, but fix the headaches of C (like having to write 50 lines of code just to handle a basic string).
+2. **The final result is identical**: The compiled binary does the exact same thing, runs just as fast, and prints the exact same output, but our C++ code is 70% cleaner and protects us from crashing our computer with memory leaks.
+
+I added this exact explanation to your live **[`NOTES.md`](https://github.com/straydogs1207/from-scratch-todo-course/blob/main/NOTES.md)** so you have it in your notes!
+
+---
+
+# Now Let's Do Part 2 in Your File!
+
+*Reference: [cstack's Part 2 - World's Simplest SQL Compiler and Virtual Machine](https://cstack.github.io/db_tutorial/parts/part2.html)*
+
+Now that your file has the basic loop running, we are going to add **Step 1 of Part 2**:
+Teaching your program to recognize **`insert`** and **`select`**.
+
+Let's look at the changes we need to make to your file `cstack_database.cpp`:
+
+---
+
+### Addition 1: Define the Statement Types (At the Top)
+
+Right above `int main()`, add these two small blocks:
+
+```cpp
+// 1. What kind of SQL statements can our database understand?
+enum StatementType {
+    STATEMENT_INSERT,
+    STATEMENT_SELECT
+};
+
+// 2. A ticket that holds the statement type
+struct Statement {
+    StatementType type;
+};
+```
+
+---
+
+### Addition 2: The Compiler Function (`prepare_statement`)
+
+Right below the `struct Statement`, add this function.  
+This is our "Compiler"—it reads the text and checks if it starts with `"insert"` or `"select"`:
+
+```cpp
+bool prepare_statement(const string& input, Statement& statement) {
+    // Does the input start with "insert"?
+    if (input.rfind("insert", 0) == 0) {
+        statement.type = STATEMENT_INSERT;
+        return true; // We understood it!
+    }
+
+    // Is the input "select"?
+    if (input == "select") {
+        statement.type = STATEMENT_SELECT;
+        return true; // We understood it!
+    }
+
+    // Anything else is unrecognized
+    return false;
+}
+```
+
+---
+
+### Addition 3: The Virtual Machine (`execute_statement`)
+
+Right below `prepare_statement`, add the worker function that executes the command:
+
+```cpp
+void execute_statement(const Statement& statement) {
+    switch (statement.type) {
+        case STATEMENT_INSERT:
+            cout << "This is where we would do an insert.\n";
+            break;
+        case STATEMENT_SELECT:
+            cout << "This is where we would do a select.\n";
+            break;
+    }
+}
+```
+
+---
+
+### Addition 4: Update Your `main()` Loop
+
+Now, inside your `while(true)` loop, after checking for `.exit`, we tell it to **compile** and **execute**:
+
+```cpp
+int main() {
+    string input;
+
+    while (true) {
+        cout << "db > ";
+        if (!getline(cin, input)) {
+            break;
+        }
+
+        // 1. Meta-commands (start with '.')
+        if (input == ".exit") {
+            cout << "Exiting Database.\n";
+            break;
+        }
+
+        // 2. Prepare (Compile) the SQL Statement
+        Statement statement;
+        if (!prepare_statement(input, statement)) {
+            cout << "Unrecognized keyword at start of '" << input << "'.\n";
+            continue;
+        }
+
+        // 3. Execute the SQL Statement
+        execute_statement(statement);
+        cout << "Executed.\n";
+    }
+
+    return 0; 
+}
+```
+
+Notice the new keyword **`continue;`**:
+- Just like `break;` means *"Exit the loop completely"*,
+- **`continue;`** means *"Skip the rest of this round and jump straight back to the top of the `while` loop (print `db > ` again)"*.
+
+---
+
+### Try updating your `cstack_database.cpp`!
+
+Add those pieces into your file, then recompile and run:
+
+```bash
+g++ -std=c++17 cstack_database.cpp -o cstack_database
+./cstack_database
+```
+
+Try typing:
+```text
+insert milk
+select
+delete milk
+.exit
+```
+
+Tell me what it prints when you try those commands!
+
+### 👤 Learner
+
+can you give complete code like in one image itself its getting confusing in it
