@@ -2128,3 +2128,106 @@ Tell me what it prints when you try those commands!
 ### 👤 Learner
 
 can you give complete code like in one image itself its getting confusing in it
+
+### 🤖 Instructor
+
+Here is the **complete, unified code for Part 2 in one single place**. 
+
+You can replace everything in your file [`cstack_database.cpp`](file:///home/ashutosh-goyal/important%20coding%20files/cstack_database.cpp) with this exact code:
+
+```cpp
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+// 1. A list of all SQL commands our database understands
+enum StatementType {
+    STATEMENT_INSERT,
+    STATEMENT_SELECT
+};
+
+// 2. A ticket to hold the parsed statement
+struct Statement {
+    StatementType type;
+};
+
+// 3. The Compiler: checks if user typed "insert" or "select"
+bool prepare_statement(const string& input, Statement& statement) {
+    if (input.rfind("insert", 0) == 0) {
+        statement.type = STATEMENT_INSERT;
+        return true;
+    }
+    if (input == "select") {
+        statement.type = STATEMENT_SELECT;
+        return true;
+    }
+    return false; // Unrecognized SQL keyword
+}
+
+// 4. The Virtual Machine: executes the statement
+void execute_statement(const Statement& statement) {
+    switch (statement.type) {
+        case STATEMENT_INSERT:
+            cout << "This is where we would do an insert.\n";
+            break;
+        case STATEMENT_SELECT:
+            cout << "This is where we would do a select.\n";
+            break;
+    }
+}
+
+// 5. The Main REPL Loop
+int main() {
+    string input;
+
+    while (true) {
+        cout << "db > ";
+        if (!getline(cin, input)) {
+            break;
+        }
+
+        // Check for Meta-Commands (starting with '.')
+        if (input == ".exit") {
+            cout << "Exiting Database.\n";
+            break;
+        }
+
+        // Try to Compile (Prepare) the SQL Statement
+        Statement statement;
+        if (!prepare_statement(input, statement)) {
+            cout << "Unrecognized keyword at start of '" << input << "'.\n";
+            continue; // Skip to next loop round (prints db > again)
+        }
+
+        // Execute the SQL Statement
+        execute_statement(statement);
+        cout << "Executed.\n";
+    }
+
+    return 0;
+}
+```
+
+---
+
+### How to Compile and Run:
+
+In your terminal:
+```bash
+cd "/home/ashutosh-goyal/important coding files"
+g++ -std=c++17 cstack_database.cpp -o cstack_database
+./cstack_database
+```
+
+Try typing:
+1. `insert milk`
+2. `select`
+3. `delete milk`
+4. `.exit`
+
+Tell me what it prints when you try those commands!
+
+### 👤 Learner
+
+i think you have written the code wrong because in some places in statement word the s would be capital but you have written it small like in if(!prepare_statement(input, statement)) , s should be capital and similarly in execute command

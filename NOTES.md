@@ -6,6 +6,29 @@ These notes explain every new term and concept we encounter as we build our data
 
 ## 1. C++ Keywords & Concepts
 
+### Type vs. Variable Name (Capital vs. Lowercase)
+C++ is strictly **case-sensitive** (`Statement` and `statement` are two different things!).
+- **Capital `Statement` (The Type / Blueprint):**
+  Defines what the data looks like. Just like `int` or `string`.
+  ```cpp
+  struct Statement {
+      StatementType type;
+  };
+  ```
+- **Lowercase `statement` (The Actual Variable / Object):**
+  The actual instance created from that blueprint.
+  ```cpp
+  Statement statement;
+  //  ^         ^
+  // Type    Variable
+  ```
+- **Analogy:**
+  - `Car` (Blueprint / Design) vs `my_car` (The actual car parked in your garage).
+  - When passing into a function: you pass the **actual car** (`statement`), NOT the blueprint (`Statement`).
+  - If you pass `Statement` with a capital S, C++ gives an error: *"Statement does not refer to a value"*.
+
+---
+
 ### Why C++ instead of C?
 - **History:** C++ was created by Bjarne Stroustrup specifically to solve the headaches of C.
 - **In C:** There is no `string` type. You have to manually allocate memory with `malloc()`, free it with `free()`, manage raw pointers (`char*`), and compare strings with `strcmp()`. If you make one mistake, the program crashes with a `Segmentation fault`.
