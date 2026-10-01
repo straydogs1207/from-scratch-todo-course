@@ -6,6 +6,38 @@ These notes explain every new term and concept we encounter as we build our data
 
 ## 1. C++ Keywords & Concepts
 
+### Scope: Why do we only need `&` in functions?
+- **Inside `main()`:** If you write `score = score + 10;`, it changes to 60 immediately. You don't need `&` because you are in the same room as your variable!
+- **Inside another function:** A separate function lives in a different "room" (called a **different scope**).
+  - Without `&`: The function creates a temporary local copy in its room, changes the copy to 60, and throws it away. The original in `main()` stays 50!
+  - With `&`: A wire connects the function directly to the variable in `main()`.
+
+---
+
+### Where does the `&` symbol go?
+It always goes **between the DataType and the variableName**:
+```cpp
+DataType& variableName
+```
+Examples:
+- `int& score`
+- `string& text`
+- `Statement& statement`
+
+---
+
+### The 2-Second Rule: When should YOU use `&`?
+
+Ask yourself these two questions whenever you write a function:
+
+| Question | What to write | Example |
+| :--- | :--- | :--- |
+| **1. Does the function need to MODIFY the original variable?** | Use **`Type&`** | `void fillTicket(Statement& statement)` |
+| **2. Is it BIG (like a `string` or `struct`) that we only want to READ?** | Use **`const Type&`** | `bool checkWord(const string& input)` |
+| **3. Is it small (like an `int` or `bool`) that we only want to READ?** | Normal (no `&`) | `bool isAdult(int age)` |
+
+---
+
 ### What is a `bool` Function?
 - **Concept:** Think of a `bool` function as a **question** your program asks. The answer is always **`true`** (yes) or **`false`** (no).
 - **Format:**
@@ -44,20 +76,6 @@ The **`&`** means: *"Do NOT make a copy. Work directly on the real variable."*
 
 ---
 
-### What does `const string& input` mean?
-- **Format:** `const DataType& variableName`
-- **Meaning:** *"Look at the original variable (no slow copying), but **DO NOT CHANGE IT** (read-only)."*
-- **Why we use it:** To safely read text without wasting computer memory copying it.
-
----
-
-### Why does `Statement& statement` NOT have `const`?
-- Because the entire job of `prepare_statement` is to **fill in and change** the ticket!
-- Without `&`, it would fill in a photocopy and throw it away.
-- With `&`, it writes directly onto the real `statement` ticket in `main()`.
-
----
-
 ### The Golden Definition of a `struct`:
 > **"A `struct` creates a brand new data type that can hold other data types inside it (like `int`, `string`, `double`, `bool`, or even other custom types!)."**
 
@@ -73,27 +91,6 @@ DataType variableName;
 | `string` | `name;` | Creates a text box named `name` |
 | **`Player`** | **`p1;`** | **Creates a Player box named `p1`** |
 | **`Statement`** | **`statement;`** | **Creates a Statement box named `statement`** |
-
----
-
-### Deep Dive: `struct` (Custom Data Boxes)
-- **What is it?** A `struct` bundles multiple variables together into one custom box.
-- **The Dot `.` Operator:** Used to reach inside a struct box to read or write a value (e.g., `p1.health = 100;`).
-
-#### Easy Example (Game Character):
-```cpp
-// 1. The Blueprint (Defines the new type 'Player')
-struct Player {
-    string name;   // Holds a string inside
-    int health;    // Holds an int inside
-    double speed;  // Holds a double inside
-};
-
-// 2. Creating an actual player box:
-Player p1;         // DataType is Player, variable name is p1
-p1.name = "Mario"; // Reach inside p1 and set name
-p1.health = 100;   // Reach inside p1 and set health
-```
 
 ---
 
