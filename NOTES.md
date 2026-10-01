@@ -6,6 +6,20 @@ These notes explain every new term and concept we encounter as we build our data
 
 ## 1. C++ Keywords & Concepts
 
+### Why combine `const` and `&`? (`const string&`)
+- **Isn't `const` the opposite of `&`?**
+  - `&` has TWO superpowers:
+    1. It allows changing the original variable.
+    2. **It skips copying! (Super fast performance).**
+- **The 1,000-Page Book Analogy:**
+  1. `string text` (Pass-by-Value): Photocopies all 1,000 pages. (Safe, but slow and wastes RAM).
+  2. `string& text` (Pass-by-Reference): Hands over the original book with a pen. (Fast, but the function might scribble on it).
+  3. **`const string& text` (The Glass Case):** Hands over the original book inside a glass display case!
+     - **`&`** means: Zero photocopying (instant speed).
+     - **`const`** means: Glass case lock (read-only, 100% safe).
+
+---
+
 ### Scope: Why do we only need `&` in functions?
 - **Inside `main()`:** If you write `score = score + 10;`, it changes to 60 immediately. You don't need `&` because you are in the same room as your variable!
 - **Inside another function:** A separate function lives in a different "room" (called a **different scope**).
@@ -78,19 +92,6 @@ The **`&`** means: *"Do NOT make a copy. Work directly on the real variable."*
 
 ### The Golden Definition of a `struct`:
 > **"A `struct` creates a brand new data type that can hold other data types inside it (like `int`, `string`, `double`, `bool`, or even other custom types!)."**
-
-Look at how custom structs follow the exact same rule as built-in types:
-```cpp
-DataType variableName;
-```
-
-| DataType (The Kind of Box) | variableName (Your Custom Name) | What it creates |
-| :--- | :--- | :--- |
-| `int` | `x;` | Creates an integer box named `x` |
-| `double` | `price;` | Creates a decimal box named `price` |
-| `string` | `name;` | Creates a text box named `name` |
-| **`Player`** | **`p1;`** | **Creates a Player box named `p1`** |
-| **`Statement`** | **`statement;`** | **Creates a Statement box named `statement`** |
 
 ---
 
