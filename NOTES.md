@@ -6,6 +6,36 @@ These notes explain every new term and concept we encounter as we build our data
 
 ## 1. C++ Keywords & Concepts
 
+### Line-by-Line Breakdown: `prepare_statement`
+
+```cpp
+bool prepare_statement(const string& input, Statement& statement) {
+```
+
+1. **`bool` (Return Type):**
+   - The function finishes by reporting **`true`** (Success: command understood) or **`false`** (Failure: unrecognized command).
+2. **`const string& input`:**
+   - **`string input`:** The text the user typed into the terminal.
+   - **`const` (Constant / Read-Only):** A safety promise that this function will only *read* the user's text, never alter or delete it.
+   - **`&` (Reference / No-Copy):** Tells C++ not to waste time duplicating the string in RAM. It looks directly at the original variable.
+3. **`Statement& statement`:**
+   - **Why NO `const`?** Because the function's entire job is to **fill in and modify** the `statement` box!
+   - **Why `&`?** Ensures the changes are made directly to the original `statement` ticket in `main()`, not a temporary copy.
+
+---
+
+### How to Check if a String Starts with a Word: `.rfind("insert", 0) == 0`
+- **Why can't we use `input == "insert"`?**
+  Because the user types arguments after it, like `"insert 1 milk"`. `"insert 1 milk"` does **not** equal `"insert"`.
+- **What `.rfind(text, 0)` does:**
+  Searches if the string starts with `text` at position `0` (the very beginning).
+  - If it starts with `"insert"` at position 0 $\rightarrow$ returns `0`.
+  - If it does NOT start with `"insert"` $\rightarrow$ returns a huge error number (`string::npos`).
+- **Meaning of `input.rfind("insert", 0) == 0`:**
+  *"Does this sentence start with the word 'insert' at position 0?"*
+
+---
+
 ### The Golden Definition of a `struct`:
 > **"A `struct` creates a brand new data type that can hold other data types inside it (like `int`, `string`, `double`, `bool`, or even other custom types!)."**
 
