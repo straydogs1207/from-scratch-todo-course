@@ -2961,3 +2961,7 @@ Tell me what feels most confusing about that line (the `const`, the `&`, or the 
 ### 👤 Learner
 
 and the rate at which we are going how much more days do you think will it take to finish all this cstack parts and should i focus on finishing 1 part daily like that should be the least goal atleast daily
+
+### 👤 Learner
+
+and the rate at which we are going how much more days do you think will it take to finish all this cstack parts and should i focus on finishing 1 part daily like that should be the least goal atleast daily
