@@ -6,33 +6,55 @@ These notes explain every new term and concept we encounter as we build our data
 
 ## 1. C++ Keywords & Concepts
 
-### Line-by-Line Breakdown: `prepare_statement`
-
-```cpp
-bool prepare_statement(const string& input, Statement& statement) {
-```
-
-1. **`bool` (Return Type):**
-   - The function finishes by reporting **`true`** (Success: command understood) or **`false`** (Failure: unrecognized command).
-2. **`const string& input`:**
-   - **`string input`:** The text the user typed into the terminal.
-   - **`const` (Constant / Read-Only):** A safety promise that this function will only *read* the user's text, never alter or delete it.
-   - **`&` (Reference / No-Copy):** Tells C++ not to waste time duplicating the string in RAM. It looks directly at the original variable.
-3. **`Statement& statement`:**
-   - **Why NO `const`?** Because the function's entire job is to **fill in and modify** the `statement` box!
-   - **Why `&`?** Ensures the changes are made directly to the original `statement` ticket in `main()`, not a temporary copy.
+### What is a `bool` Function?
+- **Concept:** Think of a `bool` function as a **question** your program asks. The answer is always **`true`** (yes) or **`false`** (no).
+- **Format:**
+  ```cpp
+  bool functionName(input) {
+      return true_or_false_answer;
+  }
+  ```
+- **Simple Example:**
+  ```cpp
+  bool isAdult(int age) {
+      return age >= 18;
+  }
+  ```
 
 ---
 
-### How to Check if a String Starts with a Word: `.rfind("insert", 0) == 0`
-- **Why can't we use `input == "insert"`?**
-  Because the user types arguments after it, like `"insert 1 milk"`. `"insert 1 milk"` does **not** equal `"insert"`.
-- **What `.rfind(text, 0)` does:**
-  Searches if the string starts with `text` at position `0` (the very beginning).
-  - If it starts with `"insert"` at position 0 $\rightarrow$ returns `0`.
-  - If it does NOT start with `"insert"` $\rightarrow$ returns a huge error number (`string::npos`).
-- **Meaning of `input.rfind("insert", 0) == 0`:**
-  *"Does this sentence start with the word 'insert' at position 0?"*
+### What is Pass-by-Value vs. Pass-by-Reference (`&`)?
+When you pass a variable into a function, C++ has two ways to do it:
+
+#### 1. Pass-by-Value (Default - The "Photocopy"):
+```cpp
+void addTen(int score) {
+    score = score + 10; // Only changes the photocopy!
+}
+```
+C++ makes a temporary copy. The original variable in `main()` never changes.
+
+#### 2. Pass-by-Reference (Using `&` - The "Original"):
+```cpp
+void addTen(int& score) {
+    score = score + 10; // Changes the REAL original variable!
+}
+```
+The **`&`** means: *"Do NOT make a copy. Work directly on the real variable."*
+
+---
+
+### What does `const string& input` mean?
+- **Format:** `const DataType& variableName`
+- **Meaning:** *"Look at the original variable (no slow copying), but **DO NOT CHANGE IT** (read-only)."*
+- **Why we use it:** To safely read text without wasting computer memory copying it.
+
+---
+
+### Why does `Statement& statement` NOT have `const`?
+- Because the entire job of `prepare_statement` is to **fill in and change** the ticket!
+- Without `&`, it would fill in a photocopy and throw it away.
+- With `&`, it writes directly onto the real `statement` ticket in `main()`.
 
 ---
 
@@ -51,9 +73,6 @@ DataType variableName;
 | `string` | `name;` | Creates a text box named `name` |
 | **`Player`** | **`p1;`** | **Creates a Player box named `p1`** |
 | **`Statement`** | **`statement;`** | **Creates a Statement box named `statement`** |
-
-- **`p1` is NOT a value!** `p1` is the **name of the variable** (just like `x` or `name`).
-- The keyword `struct` **itself** defines this new type. No `enum` needed!
 
 ---
 
@@ -75,27 +94,6 @@ Player p1;         // DataType is Player, variable name is p1
 p1.name = "Mario"; // Reach inside p1 and set name
 p1.health = 100;   // Reach inside p1 and set health
 ```
-
-#### Our Database Example (`struct Statement`):
-```cpp
-// 1. The Ticket Blueprint
-struct Statement {
-    StatementType type; // Holds our custom StatementType inside!
-};
-
-// 2. Creating and filling the ticket:
-Statement statement;               // DataType is Statement, variable name is statement
-statement.type = STATEMENT_INSERT; // Reach inside and stamp the ticket!
-```
-
----
-
-### Type vs. Variable Name (Capital vs. Lowercase)
-C++ is strictly **case-sensitive** (`Statement` and `statement` are two different things!).
-- **Capital `Statement` (The Type / Blueprint):**
-  Defines what the data looks like. Just like `int` or `string`.
-- **Lowercase `statement` (The Actual Variable / Object):**
-  The actual instance created from that blueprint.
 
 ---
 
