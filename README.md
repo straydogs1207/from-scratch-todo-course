@@ -3440,3 +3440,120 @@ Does the reason why we combine `const` and `&` make sense now?
 ### 👤 Learner
 
 is still don't understood like while explaining use practically like in code like maybe by analogies
+
+### 🤖 Instructor
+
+Let's look at this **practically in real C++ code**. No theories—let's look at 3 short functions side-by-side:
+
+---
+
+### The Practical Code: 3 Ways to Pass a Variable
+
+Imagine we have your name in `main()`:
+```cpp
+string name = "Ashutosh";
+```
+
+Now let's see what happens when we pass `name` into 3 different functions:
+
+```cpp
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+// 1. Pass-by-Value (No &)
+void functionOne(string s) {
+    s = "Changed!"; // Only changes the copy!
+}
+
+// 2. Pass-by-Reference (& only, no const)
+void functionTwo(string& s) {
+    s = "Changed!"; // Changes the REAL variable in main()!
+}
+
+// 3. The Combo: const AND & (const string&)
+void functionThree(const string& s) {
+    cout << s;       // ALLOWED: We can read it!
+    
+    // s = "Changed!"; // FORBIDDEN! C++ compiler throws an ERROR and stops!
+}
+```
+
+---
+
+### What happens in `main()` when we run them?
+
+```cpp
+int main() {
+    string name = "Ashutosh";
+
+    // Call Function 1:
+    functionOne(name);
+    cout << name << endl; 
+    // PRINTS: "Ashutosh" 
+    // Why? Because functionOne only messed with a temporary copy.
+
+    // Call Function 2:
+    functionTwo(name);
+    cout << name << endl; 
+    // PRINTS: "Changed!" 
+    // Why? Because '&' forced it to modify the REAL original variable!
+
+    // Reset name:
+    name = "Ashutosh";
+
+    // Call Function 3:
+    functionThree(name);
+    // PRINTS: "Ashutosh"
+    // Why do we use this? Look below!
+}
+```
+
+---
+
+### So why do we use `const string&` in `prepare_statement`?
+
+Look at `prepare_statement` again:
+
+```cpp
+bool prepare_statement(const string& input, Statement& statement)
+```
+
+Inside this function, we only want to **READ** what the user typed:
+```cpp
+if (input == "select") { ... }
+```
+
+Now ask yourself:
+1. **Why didn't we write `string input` (No `&`)?**  
+   Because if the user types a long 500-word command, C++ wastes time **copying all 500 words** into a new memory location just to read it. Adding **`&`** means: *"Zero copying! Read the original text directly."*
+
+2. **Why didn't we write `string& input` (Without `const`)?**  
+   Because without `const`, a programmer might make a silly mistake inside `prepare_statement`:
+   ```cpp
+   input = ""; // ACCIDENTAL TYPO! You just erased what the user typed!
+   ```
+   If you wrote `string&`, C++ would allow this bug, and the user's input would be wiped out.
+
+3. **By writing `const string& input`:**  
+   - The **`&`** gives you **Speed** (reads the original directly, zero memory wasted).
+   - The **`const`** gives you a **Safety Lock** (if anyone accidentally writes `input = ...`, the compiler refuses to build the program!).
+
+---
+
+### The 1-Line Takeaway to Remember:
+
+| Syntax | What it does in code |
+| :--- | :--- |
+| `string s` | Slow (copies the whole string in RAM). |
+| `string& s` | Fast, but dangerous (can accidentally overwrite the original). |
+| **`const string& s`** | **Fast (no copy) + 100% Safe (read-only lock).** |
+
+I added this runnable comparison code into your live **[`NOTES.md`](https://github.com/straydogs1207/from-scratch-todo-course/blob/main/NOTES.md)**!
+
+Does seeing what happens to `"Ashutosh"` in the code make the difference click now?
+
+### 👤 Learner
+
+so if we don't use & then like whaterver he writes in like prepare_statement(....) it will get copy but not permanent so where does this copy go like does it take memory in permanently until the  prograam is stopped and so why would a programmer make such a stupid mistake he will remember if doing so will permanently change value or not in int and in const string & s basically doesn't allow to change value and doesn't allow copying for temporary only to go in trash

@@ -6,6 +6,27 @@ These notes explain every new term and concept we encounter as we build our data
 
 ## 1. C++ Keywords & Concepts
 
+### Where does the temporary copy go? (The Call Stack)
+- When a function runs without `&` (Pass-by-Value), a copy is created on the **Call Stack** in RAM.
+- **When does it get deleted?**  
+  The exact microsecond the function hits its closing curly brace `}`, the copy is destroyed immediately. It does **not** stay until the program stops.
+- **Why is it still bad?**  
+  Because if you run a loop with 1,000,000 queries, your computer has to allocate, copy, and destroy 1,000,000 strings in RAM. That wastes CPU time and battery life!
+
+---
+
+### Why use `const` if "the programmer can just remember not to change it"?
+- **Teamwork:** Real projects have dozens of engineers working on the same code. Someone else might edit your function 6 months from now.
+- **Human Brain Limits:** A real database has 50,000+ lines of code. No human can remember every single variable's rules.
+- **Defensive Programming:** In C++, good programmers always let the compiler be their bodyguard. If a variable is meant to be read-only, you lock it with `const` so nobody can break it by accident.
+
+---
+
+### The Golden Summary of `const string&`:
+> **"It does not allow changing the value, and it does not waste memory creating temporary copies that just get thrown into the trash."**
+
+---
+
 ### Practical Code Comparison: The 3 Ways to Pass a String
 
 Look at what happens to `name` in these 3 practical functions:
@@ -82,12 +103,6 @@ Examples:
   ```cpp
   bool functionName(input) {
       return true_or_false_answer;
-  }
-  ```
-- **Simple Example:**
-  ```cpp
-  bool isAdult(int age) {
-      return age >= 18;
   }
   ```
 
