@@ -6,17 +6,43 @@ These notes explain every new term and concept we encounter as we build our data
 
 ## 1. C++ Keywords & Concepts
 
-### Why combine `const` and `&`? (`const string&`)
-- **Isn't `const` the opposite of `&`?**
-  - `&` has TWO superpowers:
-    1. It allows changing the original variable.
-    2. **It skips copying! (Super fast performance).**
-- **The 1,000-Page Book Analogy:**
-  1. `string text` (Pass-by-Value): Photocopies all 1,000 pages. (Safe, but slow and wastes RAM).
-  2. `string& text` (Pass-by-Reference): Hands over the original book with a pen. (Fast, but the function might scribble on it).
-  3. **`const string& text` (The Glass Case):** Hands over the original book inside a glass display case!
-     - **`&`** means: Zero photocopying (instant speed).
-     - **`const`** means: Glass case lock (read-only, 100% safe).
+### Practical Code Comparison: The 3 Ways to Pass a String
+
+Look at what happens to `name` in these 3 practical functions:
+
+```cpp
+#include <iostream>
+#include <string>
+using namespace std;
+
+// 1. Pass-by-Value: Makes a copy (safe, but wastes RAM on big text)
+void copyOnly(string s) {
+    s = "Changed!"; // Only changes the copy!
+}
+
+// 2. Pass-by-Reference: Modifies the original!
+void changeOriginal(string& s) {
+    s = "Changed!"; // The original variable in main() changes!
+}
+
+// 3. const Reference: Fast (no copy) + Protected (cannot be changed)
+void safeReadOnly(const string& s) {
+    cout << s << endl; // ALLOWED: We can read it!
+    // s = "Changed!"; // COMPILER ERROR: C++ refuses to compile if you try to change it!
+}
+
+int main() {
+    string name = "Ashutosh";
+
+    copyOnly(name);
+    cout << name; // Still prints "Ashutosh" (Original unchanged)
+
+    changeOriginal(name);
+    cout << name; // Now prints "Changed!" (Original was modified!)
+
+    safeReadOnly(name); // Reads fast with ZERO copying, guaranteed safe!
+}
+```
 
 ---
 
@@ -41,8 +67,6 @@ Examples:
 ---
 
 ### The 2-Second Rule: When should YOU use `&`?
-
-Ask yourself these two questions whenever you write a function:
 
 | Question | What to write | Example |
 | :--- | :--- | :--- |
@@ -69,27 +93,6 @@ Ask yourself these two questions whenever you write a function:
 
 ---
 
-### What is Pass-by-Value vs. Pass-by-Reference (`&`)?
-When you pass a variable into a function, C++ has two ways to do it:
-
-#### 1. Pass-by-Value (Default - The "Photocopy"):
-```cpp
-void addTen(int score) {
-    score = score + 10; // Only changes the photocopy!
-}
-```
-C++ makes a temporary copy. The original variable in `main()` never changes.
-
-#### 2. Pass-by-Reference (Using `&` - The "Original"):
-```cpp
-void addTen(int& score) {
-    score = score + 10; // Changes the REAL original variable!
-}
-```
-The **`&`** means: *"Do NOT make a copy. Work directly on the real variable."*
-
----
-
 ### The Golden Definition of a `struct`:
 > **"A `struct` creates a brand new data type that can hold other data types inside it (like `int`, `string`, `double`, `bool`, or even other custom types!)."**
 
@@ -109,9 +112,6 @@ The **`&`** means: *"Do NOT make a copy. Work directly on the real variable."*
 
 ### `continue;`
 - **What it does:** Skips the rest of the current loop round and immediately jumps back to the top of the loop.
-- **Difference from `break;`:**
-  - `break;`: Exits and stops the loop permanently.
-  - `continue;`: Jumps straight back to `cout << "db > "` for the next command.
 
 ---
 
